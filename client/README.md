@@ -391,7 +391,7 @@ For example:
 ### `Button.js`
 
 ```js
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
 class Button extends Component {
   render() {
@@ -399,22 +399,22 @@ class Button extends Component {
   }
 }
 
-export default Button; // Don’t forget to use export default!
+export default Button // Don’t forget to use export default!
 ```
 
 ### `DangerButton.js`
 
 ```js
-import React, { Component } from "react";
-import Button from "./Button"; // Import a component from another file
+import React, { Component } from 'react'
+import Button from './Button' // Import a component from another file
 
 class DangerButton extends Component {
   render() {
-    return <Button color="red" />;
+    return <Button color="red" />
   }
 }
 
-export default DangerButton;
+export default DangerButton
 ```
 
 Be aware of the [difference between default and named exports](http://stackoverflow.com/questions/36795819/react-native-es-6-when-should-i-use-curly-braces-for-import/36796281#36796281). It is a common source of mistakes.
@@ -440,37 +440,37 @@ Here is an example:
 ### `moduleA.js`
 
 ```js
-const moduleA = "Hello";
+const moduleA = 'Hello'
 
-export { moduleA };
+export { moduleA }
 ```
 
 ### `App.js`
 
 ```js
-import React, { Component } from "react";
+import React, { Component } from 'react'
 
 class App extends Component {
   handleClick = () => {
-    import("./moduleA")
+    import('./moduleA')
       .then(({ moduleA }) => {
         // Use moduleA
       })
       .catch(err => {
         // Handle failure
-      });
-  };
+      })
+  }
 
   render() {
     return (
       <div>
         <button onClick={this.handleClick}>Load</button>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
 ```
 
 This will make `moduleA.js` and all its unique dependencies as a separate chunk that only loads after the user clicks the 'Load' button.
@@ -498,13 +498,13 @@ This project setup uses [Webpack](https://webpack.js.org/) for handling all asse
 ### `Button.js`
 
 ```js
-import React, { Component } from "react";
-import "./Button.css"; // Tell Webpack that Button.js uses these styles
+import React, { Component } from 'react'
+import './Button.css' // Tell Webpack that Button.js uses these styles
 
 class Button extends Component {
   render() {
     // You can use them as regular CSS styles
-    return <div className="Button" />;
+    return <div className="Button" />
   }
 }
 ```
@@ -593,8 +593,8 @@ To enable importing files without using relative paths, you can add the `--inclu
 This will allow you to do imports like
 
 ```scss
-@import "styles/_colors.scss"; // assuming a styles directory under src/
-@import "nprogress/nprogress"; // importing a css file from the nprogress node module
+@import 'styles/_colors.scss'; // assuming a styles directory under src/
+@import 'nprogress/nprogress'; // importing a css file from the nprogress node module
 ```
 
 At this point you might want to remove all CSS files from the source control, and add `src/**/*.css` to your `.gitignore` file. It is generally a good practice to keep the build products outside of the source control.
@@ -653,17 +653,17 @@ To reduce the number of requests to the server, importing images that are less t
 Here is an example:
 
 ```js
-import React from "react";
-import logo from "./logo.png"; // Tell Webpack this JS file uses this image
+import React from 'react'
+import logo from './logo.png' // Tell Webpack this JS file uses this image
 
-console.log(logo); // /logo.84287d09.png
+console.log(logo) // /logo.84287d09.png
 
 function Header() {
   // Import result is the URL of your image
-  return <img src={logo} alt="Logo" />;
+  return <img src={logo} alt="Logo" />
 }
 
-export default Header;
+export default Header
 ```
 
 This ensures that when the project is built, Webpack will correctly move the images into the build folder, and provide us with correct paths.
@@ -754,7 +754,7 @@ When you include a script in the HTML file that defines global variables and try
 You can avoid this by reading the global variable explicitly from the `window` object, for example:
 
 ```js
-const $ = window.$;
+const $ = window.$
 ```
 
 This makes it obvious you are using a global variable intentionally rather than because of a typo.
@@ -780,8 +780,8 @@ yarn add react-bootstrap bootstrap@3
 Import Bootstrap CSS and optionally Bootstrap theme CSS in the beginning of your `src/index.js` file:
 
 ```js
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap-theme.css";
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap-theme.css'
 // Put any other imports below so that CSS from your
 // components takes precedence over default styles.
 ```
@@ -789,7 +789,7 @@ import "bootstrap/dist/css/bootstrap-theme.css";
 Import required React Bootstrap components within `src/App.js` file or your custom component files:
 
 ```js
-import { Navbar, Jumbotron, Button } from "react-bootstrap";
+import { Navbar, Jumbotron, Button } from 'react-bootstrap'
 ```
 
 Now you are ready to use the imported React Bootstrap components within your component hierarchy defined in the render method. Here is an example [`App.js`](https://gist.githubusercontent.com/gaearon/85d8c067f6af1e56277c82d19fd4da7b/raw/6158dd991b67284e9fc8d70b9d973efe87659d72/App.js) redone using React Bootstrap.
@@ -900,8 +900,8 @@ a `.env` file. Both of these ways are described in the next few sections.
 Having access to the `NODE_ENV` is also useful for performing actions conditionally:
 
 ```js
-if (process.env.NODE_ENV !== "production") {
-  analytics.disable();
+if (process.env.NODE_ENV !== 'production') {
+  analytics.disable()
 }
 ```
 
@@ -1318,12 +1318,12 @@ To create tests, add `it()` (or `test()`) blocks with the name of the test and i
 Jest provides a built-in `expect()` global function for making assertions. A basic test could look like this:
 
 ```js
-import sum from "./sum";
+import sum from './sum'
 
-it("sums numbers", () => {
-  expect(sum(1, 2)).toEqual(3);
-  expect(sum(2, 2)).toEqual(4);
-});
+it('sums numbers', () => {
+  expect(sum(1, 2)).toEqual(3)
+  expect(sum(2, 2)).toEqual(4)
+})
 ```
 
 All `expect()` matchers supported by Jest are [extensively documented here](https://facebook.github.io/jest/docs/en/expect.html#content).<br>
@@ -1336,14 +1336,14 @@ There is a broad spectrum of component testing techniques. They range from a “
 Different projects choose different testing tradeoffs based on how often components change, and how much logic they contain. If you haven’t decided on a testing strategy yet, we recommend that you start with creating simple smoke tests for your components:
 
 ```js
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
 
-it("renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(<App />, div);
-});
+it('renders without crashing', () => {
+  const div = document.createElement('div')
+  ReactDOM.render(<App />, div)
+})
 ```
 
 This test mounts a component and makes sure that it didn’t throw during rendering. Tests like this provide a lot of value with very little effort so they are great as a starting point, and this is the test you will find in `src/App.test.js`.
@@ -1369,10 +1369,10 @@ The adapter will also need to be configured in your [global setup file](#initial
 #### `src/setupTests.js`
 
 ```js
-import { configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import { configure } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
-configure({ adapter: new Adapter() });
+configure({ adapter: new Adapter() })
 ```
 
 > Note: Keep in mind that if you decide to "eject" before creating `src/setupTests.js`, the resulting `package.json` file won't contain any reference to it. [Read here](#initializing-test-environment) to learn how to add this after ejecting.
@@ -1380,13 +1380,13 @@ configure({ adapter: new Adapter() });
 Now you can write a smoke test with it:
 
 ```js
-import React from "react";
-import { shallow } from "enzyme";
-import App from "./App";
+import React from 'react'
+import { shallow } from 'enzyme'
+import App from './App'
 
-it("renders without crashing", () => {
-  shallow(<App />);
-});
+it('renders without crashing', () => {
+  shallow(<App />)
+})
 ```
 
 Unlike the previous smoke test using `ReactDOM.render()`, this test only renders `<App>` and doesn’t go deeper. For example, even if `<App>` itself renders a `<Button>` that throws, this test will pass. Shallow rendering is great for isolated unit tests, but you may still want to create some full rendering tests to ensure the components integrate correctly. Enzyme supports [full rendering with `mount()`](http://airbnb.io/enzyme/docs/api/mount.html), and you can also use it for testing state changes and component lifecycle.
@@ -1396,16 +1396,16 @@ You can read the [Enzyme documentation](http://airbnb.io/enzyme/) for more testi
 Here is an example from Enzyme documentation that asserts specific output, rewritten to use Jest matchers:
 
 ```js
-import React from "react";
-import { shallow } from "enzyme";
-import App from "./App";
+import React from 'react'
+import { shallow } from 'enzyme'
+import App from './App'
 
-it("renders welcome message", () => {
-  const wrapper = shallow(<App />);
-  const welcome = <h2>Welcome to React</h2>;
+it('renders welcome message', () => {
+  const wrapper = shallow(<App />)
+  const welcome = <h2>Welcome to React</h2>
   // expect(wrapper.contains(welcome)).to.equal(true);
-  expect(wrapper.contains(welcome)).toEqual(true);
-});
+  expect(wrapper.contains(welcome)).toEqual(true)
+})
 ```
 
 All Jest matchers are [extensively documented here](http://facebook.github.io/jest/docs/en/expect.html).<br>
@@ -1414,7 +1414,7 @@ Nevertheless you can use a third-party assertion library like [Chai](http://chai
 Additionally, you might find [jest-enzyme](https://github.com/blainekasten/enzyme-matchers) helpful to simplify your tests with readable matchers. The above `contains` code can be written more simply with jest-enzyme.
 
 ```js
-expect(wrapper).toContainReact(welcome);
+expect(wrapper).toContainReact(welcome)
 ```
 
 To enable this, install `jest-enzyme`:
@@ -1432,7 +1432,7 @@ yarn add jest-enzyme
 Import it in [`src/setupTests.js`](#initializing-test-environment) to make its matchers available in every test:
 
 ```js
-import "jest-enzyme";
+import 'jest-enzyme'
 ```
 
 ### Using Third Party Assertion Libraries
@@ -1442,8 +1442,8 @@ We recommend that you use `expect()` for assertions and `jest.fn()` for spies. I
 However, if you are used to other libraries, such as [Chai](http://chaijs.com/) and [Sinon](http://sinonjs.org/), or if you have existing code using them that you’d like to port over, you can import them normally like this:
 
 ```js
-import sinon from "sinon";
-import { expect } from "chai";
+import sinon from 'sinon'
+import { expect } from 'chai'
 ```
 
 and then use them in your tests like you normally do.
@@ -1462,9 +1462,9 @@ For example:
 const localStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
-  clear: jest.fn()
-};
-global.localStorage = localStorageMock;
+  clear: jest.fn(),
+}
+global.localStorage = localStorageMock
 ```
 
 > Note: Keep in mind that if you decide to "eject" before creating `src/setupTests.js`, the resulting `package.json` file won't contain any reference to it, so you should manually create the property `setupTestFrameworkScriptFile` in the configuration for Jest, something like the following:
@@ -1824,7 +1824,7 @@ you can swap out the call to `registerServiceWorker()` in
 [`src/index.js`](src/index.js) first by modifying the service worker import:
 
 ```javascript
-import { unregister } from "./registerServiceWorker";
+import { unregister } from './registerServiceWorker'
 ```
 
 and then call `unregister()` instead.
@@ -1966,17 +1966,17 @@ You don’t necessarily need a static server in order to run a Create React App 
 Here’s a programmatic example using [Node](https://nodejs.org/) and [Express](http://expressjs.com/):
 
 ```javascript
-const express = require("express");
-const path = require("path");
-const app = express();
+const express = require('express')
+const path = require('path')
+const app = express()
 
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, 'build')))
 
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
-app.listen(9000);
+app.listen(9000)
 ```
 
 The choice of your server software isn’t important either. Since Create React App is completely platform-agnostic, there’s no need to explicitly use Node.
@@ -2423,20 +2423,20 @@ To add a specific Moment.js locale to your bundle, you need to import it explici
 For example:
 
 ```js
-import moment from "moment";
-import "moment/locale/fr";
+import moment from 'moment'
+import 'moment/locale/fr'
 ```
 
 If import multiple locales this way, you can later switch between them by calling `moment.locale()` with the locale name:
 
 ```js
-import moment from "moment";
-import "moment/locale/fr";
-import "moment/locale/es";
+import moment from 'moment'
+import 'moment/locale/fr'
+import 'moment/locale/es'
 
 // ...
 
-moment.locale("fr");
+moment.locale('fr')
 ```
 
 This will only work for locales that have been explicitly imported before.
