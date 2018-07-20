@@ -6,8 +6,7 @@
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "client",
-    "server"
+    "client"
   ],
   "lint-staged": {
     "./**/*.{js,jsx,json,css,md}": [
