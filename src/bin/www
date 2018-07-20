@@ -13,13 +13,15 @@ var http = require('http');
  */
 
 var port = normalizePort(process.env.APP_PORT || '3000');
-app.set('port', port);
+// app.set('port', port);
+console.log(' --', port)
 
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
+console.log(' -- server created')
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -82,6 +84,7 @@ function onError(error) {
  */
 
 function onListening() {
+  console.log(' -- listening')
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr

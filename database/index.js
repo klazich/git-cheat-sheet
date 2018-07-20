@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { User } from './models/user'
+export { User } from './models/user'
 import { db } from '../config'
 const { host, port, name, auth, user, pass } = db
 

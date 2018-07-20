@@ -10,6 +10,7 @@ export default {
   },
   jwt: {
     port: process.env.JWT_AUTH_PORT || 3002,
+    secret: process.env.JWT_SECRET,
   },
   db: {
     host: process.env.DB_HOST || 'localhost',
