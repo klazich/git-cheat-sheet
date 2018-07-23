@@ -1,24 +1,17 @@
-// var express = require('express')
-// var router = express.Router()
+import passport from 'passport'
+import { Router } from 'express'
+const router = Router()
 
-// /* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource')
-// })
+router.get(
+  '/',
+  passport.authenticate('jwt', {
+    session: false,
+    failWithError: true,
+  }),
+  async (req, res) => {
+    const id = req.user
+    res.json({ id })
+  }
+)
 
-// module.exports = router
-
-let users = [
-  {
-    id: 1,
-    name: 'John',
-    email: 'john@mail.com',
-    password: 'john123',
-  },
-  {
-    id: 2,
-    name: 'Sarah',
-    email: 'sarah@mail.com',
-    password: 'sarah123',
-  },
-]
+export default router
