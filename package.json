@@ -17,7 +17,7 @@
     }
   },
   "scripts": {
-    "start:server": "nodemon src/server.js --exec babel-node",
+    "start:server": "nodemon src/app --exec babel-node",
     "start:client": "cd client && yarn start",
     "build:server": "babel src -d lib",
     "build:client": "cd client && yarn build",
@@ -28,6 +28,7 @@
   "dependencies": {
     "argon2": "^0.19.3",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "debug": "^3.1.0",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
