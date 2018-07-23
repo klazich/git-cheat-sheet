@@ -3,13 +3,13 @@ import mongoose from 'mongoose'
 import config from '../../config'
 const { host, port, name, auth, user, pass } = config.db
 
-// configure mongoose
+// CONFIGURE MONGOOSE
 mongoose.Promise = global.Promise
 if (process.env.NODE_ENV !== 'production') {
-  mongoose.set('debug', true)
+  // mongoose.set('debug', true)
 }
 
-// setup connection arguments
+// SETUP CONNECTION ARGUMENTS
 const connectionString = `mongodb://${host}:${port}/${name}`
 const connectionOptions = {
   useNewUrlParser: true,
@@ -17,15 +17,18 @@ const connectionOptions = {
   pass: auth && pass,
 }
 
-// create connection
+// CREATE DATABASE CONNECTION
 mongoose.connect(
   connectionString,
   connectionOptions
 )
 
-mongoose.connection.dropDatabase()
+if (process.env.NODE_ENV !== 'production') {
+  // Drop databases if the app is not in production.
+  mongoose.connection.dropDatabase()
+}
 
-// mongoose hooks
+// CONNECTION LOGGING WITH MONGOOSE HOOKS
 mongoose.connection
   .on('error', err => {
     if (err.message.indexOf('ECONNREFUSED') !== -1) {

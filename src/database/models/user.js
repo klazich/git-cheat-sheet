@@ -45,9 +45,12 @@ UserSchema.methods = {
   async generateToken() {
     const payload = {
       username: this.username,
-      id: this._id,
     }
-    return await jwt.sign(payload, process.env.JWT_SECRET)
+    const options = {
+      expiresIn: '2h',
+      subject: this._id.toString(),
+    }
+    return await jwt.sign(payload, process.env.JWT_SECRET, options)
   },
 }
 
