@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 export const UserSchema = Schema({
   hash: {
     type: String,
-    required: true,
+    // required: true,
   },
   username: {
     type: String,
@@ -43,7 +43,11 @@ UserSchema.methods = {
    * Json web tokenization for User instances.
    */
   async generateToken() {
-    return jwt.sign(this, process.env.JWT_SECRET)
+    const payload = {
+      username: this.username,
+      id: this._id,
+    }
+    return await jwt.sign(payload, process.env.JWT_SECRET)
   },
 }
 
@@ -64,7 +68,7 @@ UserSchema.virtual('password').set(async function(password) {
 UserSchema.pre('save', async function(next) {
   if (this._password) {
     try {
-      const hash = await this.generateHash(this._password)
+      const hash = await User.generateHash(this._password)
       this.hash = hash
       return next()
     } catch (err) {
@@ -77,4 +81,4 @@ UserSchema.pre('save', async function(next) {
 })
 
 // MODEL CREATION AND EXPORT
-export const User = mongoose.model('User', userSchema)
+export const User = mongoose.model('User', UserSchema)

@@ -2,7 +2,7 @@ import passport from 'passport'
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
 
 import { User } from '..'
-import { config } from '..'
+import config from '../../config'
 const { jwt } = config
 
 const verify = async (req, jwtPayload, done) => {

@@ -1,8 +1,7 @@
 import mongoose from 'mongoose'
 
-export { User } from './models/user'
-import { db } from '../config'
-const { host, port, name, auth, user, pass } = db
+import config from '../../config'
+const { host, port, name, auth, user, pass } = config.db
 
 // configure mongoose
 mongoose.Promise = global.Promise
@@ -13,7 +12,6 @@ if (process.env.NODE_ENV !== 'production') {
 // setup connection arguments
 const connectionString = `mongodb://${host}:${port}/${name}`
 const connectionOptions = {
-  useMongoClient: true,
   useNewUrlParser: true,
   user: auth && user,
   pass: auth && pass,
@@ -25,12 +23,14 @@ mongoose.connect(
   connectionOptions
 )
 
+mongoose.connection.dropDatabase()
+
 // mongoose hooks
 mongoose.connection
   .on('error', err => {
     if (err.message.indexOf('ECONNREFUSED') !== -1) {
       console.error(
-        "! Could not establish connection to a MongoDB service. Maybe it's not running?"
+        "!! Could not establish connection to a MongoDB service. Maybe it's not running?"
       )
       process.exit(1)
     } else {
@@ -38,8 +38,8 @@ mongoose.connection
     }
   })
   .on('connected', () => {
-    console.log(`> Connected to a MongoDB service successfully.`)
+    console.log(`-- Connected to the MongoDB service successfully.`)
   })
   .on('disconnected', () => {
-    console.info(`> Disconnected from the MongoDB service.`)
+    console.info(`-- Disconnected from the MongoDB service.`)
   })
