@@ -36,8 +36,8 @@ import './database'
 import './passport'
 app.use(passport.initialize())
 
-app.get('/up', function(req, res) {
-  res.status(200).json({ isUp: true })
+app.get('/status', function(req, res) {
+  res.status(200).json({ success: true })
 })
 
 // Catch 404 and forward to error handler.
@@ -49,7 +49,7 @@ app.use(function(req, res, next) {
 
 // Send errors as json and not html.
 app.use(function(err, req, res, next) {
-  console.error(err) // Log the error.
+  // console.error(err) // Log the error.
   res.status(err.status || 500).json({ error: err.toString() })
 })
 

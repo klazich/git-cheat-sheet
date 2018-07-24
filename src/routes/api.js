@@ -4,7 +4,12 @@ import { User } from '../database/models/user'
 
 const router = Router()
 
-// Register a new user with given username and password.
+/**
+ * POST /api/register
+ *
+ * Register a new user with given username and password.
+ */
+
 router.post('/register', async (req, res) => {
   // Extract the username and password from the request body.
   const {
@@ -51,7 +56,12 @@ router.post('/register', async (req, res) => {
   }
 })
 
-// Generate a new JWT for given registered user.
+/**
+ * POST /api/token
+ *
+ * Generate a new JWT for given registered user.
+ */
+
 router.post('/token', async (req, res) => {
   // Extract the username and password from the request body.
   const {
@@ -71,7 +81,7 @@ router.post('/token', async (req, res) => {
     // Check that the username exists in the database.
     const userDocument = await User.findOne({ username }).exec()
     if (!userDocument) {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
         message: 'Incorrect *username or password.',
       })

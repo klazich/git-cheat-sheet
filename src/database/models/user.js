@@ -47,7 +47,7 @@ UserSchema.methods = {
       username: this.username,
     }
     const options = {
-      expiresIn: '2h',
+      expiresIn: '6h',
       subject: this._id.toString(),
     }
     return await jwt.sign(payload, process.env.JWT_SECRET, options)
