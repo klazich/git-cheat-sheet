@@ -1,31 +1,34 @@
-import axios from 'axios'
+// import axios from 'axios'
 import React, { Component } from 'react'
 
 class Test extends Component {
   constructor(props) {
     super(props)
-    this.state = { token: '' }
-  }
-
-  async componentDidMount() {
-    try {
-      const res = await axios.post('/api/register', {
-        username: 'KevinLazich',
-        password: 'abc123',
-      })
-      console.log(res.data)
-      const token = await res.data.token
-      this.setState('token', token)
-    } catch (err) {
-      console.error(err)
+    this.state = {
+      data: '',
+      error: null,
     }
   }
 
+  async componentDidMount() {
+    fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ username: 'kevin', password: 'abc123' }),
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (!res.success) this.setState({ error: res.error })
+        else this.setState({ data: res.token })
+      })
+  }
+
   render() {
+    const { token } = this.state
     return (
       <div>
         <h2>Test</h2>
-        <p>{this.state.token}</p>
+        <p>{token}</p>
       </div>
     )
   }
