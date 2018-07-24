@@ -19,12 +19,12 @@
   "scripts": {
     "start:server": "nodemon src/app --exec babel-node",
     "start:client": "cd client && yarn start",
-    "start": "concurrently \"yarn start:server\" \"yarn start:client\"",
+    "start:dev": "concurrently \"yarn start:server\" \"yarn start:client\"",
     "build:server": "babel src -d lib",
     "build:client": "cd client && yarn build",
     "build": "concurrently \"yarn build:server\" \"yarn build:client\"",
     "postinstall": "cd client && yarn",
-    "prettier": "prettier --write \"./**/*.{js,jsx,json,css,md}\""
+    "prettier": "prettier --write \"{client,src}/**/*.{js,jsx,json,css,md}\""
   },
   "dependencies": {
     "argon2": "^0.19.3",
