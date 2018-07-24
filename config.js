@@ -2,14 +2,13 @@ import path from 'path'
 
 export default {
   cwd: path.resolve(__dirname, '..'),
-  app: {
-    port: process.env.APP_PORT || 3001,
+  client: {
+    port: process.env.DEV_PORT || 3000,
   },
-  local: {
-    port: process.env.LOCAL_AUTH_PORT || 3003,
+  app: {
+    port: process.env.API_PORT || 3100,
   },
   jwt: {
-    port: process.env.JWT_AUTH_PORT || 3002,
     secret: process.env.JWT_SECRET,
   },
   db: {
