@@ -4,12 +4,20 @@ import { User } from '../database/models/user'
 
 const router = Router()
 
+const bldres = (success = false, auth = false, ...props) =>
+  props.reduce(
+    (acc, prop) => ({
+      [prop[0]]: prop[1],
+      ...acc,
+    }),
+    { success, auth }
+  )
+
 /**
- * POST /api/register
+ * POST - /register 
  *
  * Register a new user with given username and password.
  */
-
 router.post('/register', async (req, res) => {
   // Extract the username and password from the request body.
   const {
@@ -29,7 +37,7 @@ router.post('/register', async (req, res) => {
     // Check if the username is already in the database.
     const userDocument = await User.findOne({ username }).exec()
     if (userDocument) {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
         message: 'That username is already registered.',
       })
@@ -42,7 +50,7 @@ router.post('/register', async (req, res) => {
     // Send the JWT with success (200).
     return res.status(200).json({
       success: true,
-      message: `Username: '${username}', successfully registered.`,
+      auth: true,
       token: await user.generateToken(), // Generate the user's JWT.
     })
 
@@ -50,18 +58,18 @@ router.post('/register', async (req, res) => {
   } catch (err) {
     return res.status(500).json({
       success: false,
-      message: 'Internal Server Error',
       error: err.toString(),
     })
   }
 })
 
 /**
- * POST /api/token
+ * POST - /api/token 
+ *
+ * open route
  *
  * Generate a new JWT for given registered user.
  */
-
 router.post('/token', async (req, res) => {
   // Extract the username and password from the request body.
   const {
