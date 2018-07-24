@@ -1,15 +1,16 @@
 import 'dotenv/config' // required for Dotenv
 
-import express, { json, urlencoded } from 'express'
+import express, { json, urlencoded, Router } from 'express'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import cors from 'cors'
 import passport from 'passport'
 
 import indexRouter from './routes/index'
-import usersRouter from './routes/users'
-import apiRouter from './routes/api'
+import authRouter from './routes/auth'
+import securedRouter from './routes/secure'
 import config from '../config'
+
 const {
   app: { port },
 } = config
@@ -25,9 +26,13 @@ app.use(cookieParser()) // read cookies
 app.use(cors()) // cross-origin resource sharing middleware
 
 // ASSIGN ROUTERS
-// app.use('/', indexRouter)
-app.use('/me', usersRouter) // JWT secured
-app.use('/api', apiRouter)
+const router = Router()
+
+router.use('/', indexRouter)
+router.use('/auth', authRouter)
+router.use('/me', securedRouter) // JWT secured
+
+app.use('/api', router)
 
 // LOAD MONGOOSE
 import './database'
@@ -36,27 +41,22 @@ import './database'
 import './passport'
 app.use(passport.initialize())
 
-app.get('/status', function(req, res) {
-  res.status(200).json({ success: true })
-})
-
-// Catch 404 and forward to error handler.
+// HANDLE ERRORS
 app.use(function(req, res, next) {
+  // Catch 404 and forward to error handler.
   var err = new Error('Not Found')
   err.status = 404
   next(err)
 })
-
 // Send errors as json and not html.
 app.use(function(err, req, res, next) {
   // console.error(err) // Log the error.
-  res.status(err.status || 500).json({ error: err.toString() })
+  res.status(err.status || 500).json(err.toString())
 })
 
 // START THE SERVER
-const PORT = port
-app.listen(PORT, function() {
-  console.log('-- Server is running on Port', PORT)
+app.listen(port, function() {
+  console.log('-- The API server is listening on port', port)
 })
 
 export default app

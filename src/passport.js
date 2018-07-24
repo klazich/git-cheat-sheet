@@ -15,12 +15,10 @@ const verify = async (jwtPayload, done) => {
 
 const options = {
   // Passport will get the JWT from the request header 'Authorization'.
-  // it will fist look for the schema 'Bearer' then 'JWT'. e.g.
-  // ... "Authorization": "Bearer <token>"
-  // ... "Authorization": "JWT <token>"
+  // it will fist look for the schema 'Bearer' then 'JWT'.
   jwtFromRequest: ExtractJwt.fromExtractors([
-    ExtractJwt.fromAuthHeaderAsBearerToken(),
-    ExtractJwt.fromAuthHeaderWithScheme('JWT'),
+    ExtractJwt.fromAuthHeaderAsBearerToken(), // "Authorization": "Bearer <token>"
+    ExtractJwt.fromAuthHeaderWithScheme('JWT'), // "Authorization": "JWT <token>"
   ]),
   secretOrKey: jwt.secret,
 }

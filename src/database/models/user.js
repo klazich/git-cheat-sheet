@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken'
 export const UserSchema = Schema({
   hash: {
     type: String,
-    // required: true,
   },
   username: {
     type: String,
@@ -18,20 +17,20 @@ export const UserSchema = Schema({
   },
 })
 
-// USER STATIC METHODS
+/* User Static Methods */
 UserSchema.statics = {
   /**
    * Static method on the User class for generating
    * password hashes.
    *
-   * An argument could be made to inline this into the middleware bellow.
+   * (An argument could be made to inline this into the middleware bellow)
    */
   async generateHash(password) {
     return argon2.hash(password, { type: argon2.argon2id })
   },
 }
 
-// USER INSTANCE METHODS
+/* User Instance Methods */
 UserSchema.methods = {
   /**
    * Password authentication for User instances.
@@ -43,31 +42,35 @@ UserSchema.methods = {
    * Json web tokenization for User instances.
    */
   async generateToken() {
-    const payload = {
-      username: this.username,
-    }
-    const options = {
-      expiresIn: '6h',
-      subject: this._id.toString(),
-    }
-    return await jwt.sign(payload, process.env.JWT_SECRET, options)
+    return await jwt.sign(
+      { id: this._id }, // JWT payload
+      process.env.JWT_SECRET, // JWT secret
+      { expiresIn: '12h' } // expires in 12 hours
+    )
   },
 }
 
-// USER VIRTUAL ATTRIBUTES
+/**
+ * User Virtual Attributes
+ *
+ * This `password` virtual attribute works as a temporary holder for the
+ * password and also as a flag to mongoose middleware hooks (see the User
+ * Middleware below on how this is used).
+ *
+ * Mongoose virtual attributes do not get persisted into the Mongo database
+ * therefore.
+ */
 UserSchema.virtual('password').set(async function(password) {
-  /**
-   * This `password` virtual attribute works as a temporary holder for the
-   * password and also as a flag to mongoose middleware hooks (see the User
-   * Middleware below on how this is used).
-   *
-   * Mongoose virtual attributes do not get persisted into the Mongo database
-   * therefore.
-   */
   this._password = password
 })
 
-// USER MIDDLEWARE
+/**
+ * User Document Middleware (pre-save)
+ *
+ * This function is called on the User document before it is saved to the
+ * database. If a password is being saved the function will generate and
+ * return a hash of the password.
+ */
 UserSchema.pre('save', async function(next) {
   if (this._password) {
     try {
