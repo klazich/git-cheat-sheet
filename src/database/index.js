@@ -24,11 +24,11 @@ mongoose.connect(
 )
 
 // GET A DB INSTANCE
-const db = mongoose.connection
+export const db = mongoose.connection
 
 if (process.env.NODE_ENV !== 'production') {
   // Drop databases if the app is not in production.
-  db.dropDatabase()
+  // db.dropDatabase()
 }
 
 // CONNECTION LOGGING WITH MONGOOSE HOOKS

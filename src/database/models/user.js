@@ -2,6 +2,8 @@ import mongoose, { Schema } from 'mongoose'
 import argon2 from 'argon2'
 import jwt from 'jsonwebtoken'
 
+import Snippet from './snippet'
+
 export const UserSchema = Schema({
   hash: {
     type: String,
@@ -48,17 +50,29 @@ UserSchema.methods = {
       { expiresIn: '12h' } // expires in 12 hours
     )
   },
+  /**
+   *
+   */
+  async snippets() {
+    try {
+      const snips = await Snippet.find({ owner: this.username }).exec()
+      return snips
+    } catch (err) {
+      return []
+    }
+  },
 }
 
 /**
- * User Virtual Attributes
+ *  User Virtual Attributes
  *
+ *  Mongoose virtual attributes do not get persisted into the Mongo database
+ */
+
+/**
  * This `password` virtual attribute works as a temporary holder for the
  * password and also as a flag to mongoose middleware hooks (see the User
  * Middleware below on how this is used).
- *
- * Mongoose virtual attributes do not get persisted into the Mongo database
- * therefore.
  */
 UserSchema.virtual('password').set(async function(password) {
   this._password = password
@@ -87,4 +101,5 @@ UserSchema.pre('save', async function(next) {
 })
 
 // MODEL CREATION AND EXPORT
-export const User = mongoose.model('User', UserSchema)
+const User = mongoose.model('User', UserSchema)
+export default User

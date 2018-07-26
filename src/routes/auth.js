@@ -1,17 +1,17 @@
 import { Router } from 'express'
 
-import { User } from '../database/models/user'
+import User from '../database/models/user'
 
 const router = Router()
 
-const bldres = (success = false, auth = false, ...props) =>
-  props.reduce(
-    (acc, prop) => ({
-      [prop[0]]: prop[1],
-      ...acc,
-    }),
-    { success, auth }
-  )
+// const bldres = (success = false, auth = false, ...props) =>
+//   props.reduce(
+//     (acc, prop) => ({
+//       [prop[0]]: prop[1],
+//       ...acc,
+//     }),
+//     { success, auth }
+//   )
 
 /**
  * POST - /register 

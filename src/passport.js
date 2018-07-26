@@ -1,13 +1,12 @@
 import passport from 'passport'
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
 
-import { User } from './database/models/user'
 import config from '../config'
 const { jwt } = config
 
 const verify = async (jwtPayload, done) => {
   try {
-    return done(null, jwtPayload.sub)
+    return done(null, jwtPayload.id)
   } catch (err) {
     return done(err)
   }

@@ -6,6 +6,7 @@ import logger from 'morgan'
 import cors from 'cors'
 import passport from 'passport'
 
+import { jwtFromAuthHeader } from './middleware'
 import indexRouter from './routes/index'
 import authRouter from './routes/auth'
 import securedRouter from './routes/secure'
@@ -26,16 +27,17 @@ app.use(cookieParser()) // read cookies
 app.use(cors()) // cross-origin resource sharing middleware
 
 // ASSIGN ROUTERS
-const router = Router()
+const root = Router()
 
-router.use('/', indexRouter)
-router.use('/auth', authRouter)
-router.use('/me', securedRouter) // JWT secured
+root.use('/', indexRouter)
+root.use('/auth', authRouter)
+root.use('/me', jwtFromAuthHeader, securedRouter) // JWT secured
 
-app.use('/api', router)
+app.use('/api', root)
 
 // LOAD MONGOOSE
 import './database'
+import './database/seed'
 
 // LOAD PASSPORT & INITIALIZE
 import './passport'
